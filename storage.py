@@ -1,7 +1,17 @@
 from abc import ABC, abstractmethod
-from typing import List
+from typing import List, Dict
 import json
-from models import Vacancy
+
+
+class Vacancy:
+    """Класс для представления вакансии."""
+
+    def __init__(self, title: str, link: str, salary: str, description: str):
+        self.title = title
+        self.link = link
+        self.salary = salary
+        self.description = description
+
 
 class VacancyStorage(ABC):
     """Абстрактный класс для работы с хранилищем вакансий."""
@@ -20,6 +30,7 @@ class VacancyStorage(ABC):
     def filter_vacancies(self, search_query: str) -> List[Vacancy]:
         """Метод для фильтрации вакансий по ключевому слову."""
         pass
+
 
 class JSONVacancyStorage(VacancyStorage):
     """Класс для работы с хранилищем вакансий в формате JSON."""

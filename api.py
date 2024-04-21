@@ -1,13 +1,14 @@
-from abc import ABC, abstractmethod
-from typing import List, Dict
 import requests
+from typing import List, Dict
+from abc import ABC, abstractmethod
+from dataclasses import dataclass
 
 class VacancyAPI(ABC):
-    """Абстрактный класс для работы с API сервиса с вакансиями."""
+    """Класс для работы с API hh.ru."""
 
     @abstractmethod
     def get_vacancies(self, search_query: str) -> List[Dict]:
-        """Метод для получения вакансий по запросу."""
+        """Метод для получения вакансий с сайта hh.ru."""
         pass
 
 class HeadHunterAPI(VacancyAPI):
@@ -17,10 +18,18 @@ class HeadHunterAPI(VacancyAPI):
         self.base_url = "https://api.hh.ru"
 
     def get_vacancies(self, search_query: str) -> List[Dict]:
+        """Метод для получения вакансий с сайта hh.ru."""
         url = f"{self.base_url}/vacancies"
         params = {"text": search_query}
         response = requests.get(url, params=params)
         if response.status_code == 200:
-            return response.json()["items"]
+            return response.json().get("items", [])
         else:
             return []
+
+@dataclass
+class Vacancy:
+    title: str
+    link: str
+    salary: str
+    description: str
