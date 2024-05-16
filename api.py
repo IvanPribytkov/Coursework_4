@@ -1,7 +1,6 @@
 import requests
 from typing import List, Dict
 from abc import ABC, abstractmethod
-from dataclasses import dataclass
 
 class VacancyAPI(ABC):
     """Класс для работы с API hh.ru."""
@@ -26,10 +25,3 @@ class HeadHunterAPI(VacancyAPI):
             return response.json().get("items", [])
         else:
             return []
-
-@dataclass
-class Vacancy:
-    title: str
-    link: str
-    salary: str
-    description: str
